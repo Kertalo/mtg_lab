@@ -52,7 +52,7 @@ function showCard(item) {
 
 function search() {
     const text = document.getElementById("searchText");
-    loadCards(text.value)
+    loadCards(text.value.toLowerCase());
 }
 
 function loadCards(cardName = "") {
@@ -61,9 +61,11 @@ function loadCards(cardName = "") {
             const menu = document.getElementById('listContainer');
             const list = document.createElement('ul');
 
+            
             cards.forEach(card => {
                 if (card.multiverseid != undefined)
                 {
+                    if (card.name.toLowerCase().startsWith(cardName)) {
                     const listItem = document.createElement('li');
                     listItem.id = card.multiverseid;
                     listItem.innerHTML = card.name;
@@ -74,6 +76,7 @@ function loadCards(cardName = "") {
                         showCard(listItem)
                     });
                     list.appendChild(listItem)
+                }
                 }
             })
             menu.innerHTML = ''
