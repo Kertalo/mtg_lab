@@ -72,7 +72,8 @@ function loadCards(cardName = "") {
                         listItem.innerHTML = card.name;
                         listItem.setAttribute('img', card.imageUrl);
                         listItem.setAttribute('description', card.text);
-                        listItem.setAttribute('cmc', card.cmc); 
+                        listItem.setAttribute('cmc', card.cmc);
+                        listItem.setAttribute('colors', card.manaCost);
                         listItem.setAttribute('types', card.type);
                         listItem.addEventListener('click', () => {
                             showCard(listItem)
