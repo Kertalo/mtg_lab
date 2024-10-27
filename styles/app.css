@@ -48,3 +48,10 @@ li{
     flex-direction: column;
     justify-content: center;
 }
+
+#totalCardsCount {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 25px;
+    text-align: center;
+}

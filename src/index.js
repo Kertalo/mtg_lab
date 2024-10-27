@@ -6,33 +6,48 @@ document.addEventListener("DOMContentLoaded", setup)
 document.getElementById("searchCards").addEventListener('click', search)
 
 const mtg = new Mtg()
+let deck = []
 
 function setup() {
-    loadCards()
-    //new ColorStats().buildStats(document.getElementById("colorStats"));
+    loadCards();
+    new ColorStats().buildStats(document.getElementById("colorStats"));
     new ManaCostStats().buildStats(document.getElementById("manaStats"));
 }
 
 function showCard(item) {
-    const content = document.getElementById("content");
-    const dir = document.createElement('dir');
-
+    const cardsContainer = document.getElementById("cardsContainer");
     const img = document.createElement('img');
     img.src = item.getAttribute('img');
     img.width="223"
-    img.height="310"
-    dir.appendChild(img)
+    img.height="310" 
+    cardsContainer.innerHTML = '';
 
-    const desc = document.createElement('p')
-    desc.innerHTML = item.getAttribute('desc');
-    dir.appendChild(desc)
+    const cardTypes = document.createElement('p');
+    cardTypes.innerText = "Тип: " + item.getAttribute('types');
+    const cardDescription = document.createElement('p');
+    cardDescription.innerText = "Описание: " + item.getAttribute('description');
+    const deckButton = document.createElement('button');
+    deckButton.innerText = 'Add card';
+    
+    deckButton.addEventListener('click', () => {
+        if (deck[item.id]) {
+            if (deck[item.id].count < 4 || item.getAttribute('types') === 'Land')
+                deck[item.id].count++;
+            else
+                alert(`Нельзя добавить больше 4 копий карты ${item.innerHTML}`)
+        } else {
+            deck[item.id] = {
+                card: item,
+                count: 1
+            };
+        }
+        updateDeck();
+    });
 
-    const button = document.createElement('button')
-    button.innerHTML = "Добавить в колоду"
-    dir.appendChild(button)
-
-    content.innerHTML = '';
-    content.appendChild(dir);
+    cardsContainer.appendChild(img);
+    cardsContainer.appendChild(cardTypes);
+    cardsContainer.appendChild(cardDescription);
+    cardsContainer.appendChild(deckButton);
 }
 
 function search() {
@@ -53,7 +68,8 @@ function loadCards(cardName = "") {
                     listItem.id = card.multiverseid;
                     listItem.innerHTML = card.name;
                     listItem.setAttribute('img', card.imageUrl);
-                    listItem.setAttribute('desc', card.text);
+                    listItem.setAttribute('description', card.text); 
+                    listItem.setAttribute('types', card.type); 
                     listItem.addEventListener('click', () => {
                         showCard(listItem)
                     });
@@ -63,4 +79,45 @@ function loadCards(cardName = "") {
             menu.innerHTML = ''
             menu.appendChild(list);
         })
+}
+
+function updateDeck() {
+    const deckContainer = document.getElementById('deckContainer');
+    deckContainer.innerHTML = ''; 
+    let totalCardCount = 0;
+    deck.forEach((deckCard, index) => {
+        const cardSample = document.createElement('div');
+        cardSample.classList.add('deckCard');
+        
+        const cardImage = document.createElement('img');
+        cardImage.src = deckCard.card.getAttribute('img');
+        cardImage.width = 70;  
+        cardImage.height = 100;
+
+        const cardCount = document.createElement('span');
+        cardCount.innerText = ` x${deckCard.count}`;
+        totalCardCount += deckCard.count;
+
+        cardImage.addEventListener('click', () => {
+            removeFromDeck(index);
+        });
+        
+        cardSample.appendChild(cardImage);
+        cardSample.appendChild(cardCount);
+        deckContainer.appendChild(cardSample);
+    });
+
+    const totalCardsCountElement = document.getElementById('totalCardsCount');
+    totalCardsCountElement.innerText = `Общее количество карт в колоде: ${totalCardCount}`;
+}
+
+
+function removeFromDeck(cardId) {
+    if (deck[cardId]) {
+        deck[cardId].count--; 
+        if (deck[cardId].count <= 0) {
+            delete deck[cardId]; 
+        }
+        updateDeck(); 
+    }
 }
