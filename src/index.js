@@ -15,12 +15,24 @@ function setup() {
 
 function showCard(item) {
     const content = document.getElementById("content");
+    const dir = document.createElement('dir');
+
     const img = document.createElement('img');
     img.src = item.getAttribute('img');
     img.width="223"
     img.height="310"
+    dir.appendChild(img)
+
+    const desc = document.createElement('p')
+    desc.innerHTML = item.getAttribute('desc');
+    dir.appendChild(desc)
+
+    const button = document.createElement('button')
+    button.innerHTML = "Добавить в колоду"
+    dir.appendChild(button)
+
     content.innerHTML = '';
-    content.appendChild(img);
+    content.appendChild(dir);
 }
 
 function search() {
@@ -41,6 +53,7 @@ function loadCards(cardName = "") {
                     listItem.id = card.multiverseid;
                     listItem.innerHTML = card.name;
                     listItem.setAttribute('img', card.imageUrl);
+                    listItem.setAttribute('desc', card.text);
                     listItem.addEventListener('click', () => {
                         showCard(listItem)
                     });
