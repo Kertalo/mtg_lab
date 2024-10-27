@@ -16,10 +16,10 @@
         <div id="menu">
             <h2>Cards</h2>
             <search>
-                <form>
-                    <input type="search" id="searchText">
+                <form id="searchForm" onsubmit="return false">
+                    <input type="text" id="searchText">
+                    <button id="searchCards" />Search</button>
                 </form>
-                <button id="searchCards">Поиск</button>
             </search>
             <div id="listContainer"></div>
         </div>

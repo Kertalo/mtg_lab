@@ -3,7 +3,8 @@ import {ColorStats} from "./widgets/colorStats";
 import {ManaCostStats} from "./widgets/manaCostStats";
 
 document.addEventListener("DOMContentLoaded", setup)
-document.getElementById("searchCards").addEventListener('click', search)
+
+document.getElementById('searchCards').addEventListener('click', search);
 
 const mtg = new Mtg()
 let deck = []
@@ -61,22 +62,21 @@ function loadCards(cardName = "") {
             const menu = document.getElementById('listContainer');
             const list = document.createElement('ul');
 
-            
             cards.forEach(card => {
                 if (card.multiverseid != undefined)
                 {
                     if (card.name.toLowerCase().startsWith(cardName)) {
-                    const listItem = document.createElement('li');
-                    listItem.id = card.multiverseid;
-                    listItem.innerHTML = card.name;
-                    listItem.setAttribute('img', card.imageUrl);
-                    listItem.setAttribute('description', card.text); 
-                    listItem.setAttribute('types', card.type); 
-                    listItem.addEventListener('click', () => {
-                        showCard(listItem)
-                    });
-                    list.appendChild(listItem)
-                }
+                        const listItem = document.createElement('li');
+                        listItem.id = card.multiverseid;
+                        listItem.innerHTML = card.name;
+                        listItem.setAttribute('img', card.imageUrl);
+                        listItem.setAttribute('description', card.text); 
+                        listItem.setAttribute('types', card.type); 
+                        listItem.addEventListener('click', () => {
+                            showCard(listItem)
+                        });
+                        list.appendChild(listItem)
+                    }
                 }
             })
             menu.innerHTML = ''
