@@ -27,22 +27,22 @@ class ColorStats {
             for (let i = 0; i < colorsArr.length; i++) {
                 switch (colorsArr[i]) {
                     case "W":
-                        data[0].count++;
+                        data[0].count += count;
                         break;
                     case "U":
-                        data[1].count++;
+                        data[1].count += count;
                         break;
                     case "B":
-                        data[2].count++;
+                        data[2].count += count;
                         break;
                     case "R":
-                        data[3].count++;
+                        data[3].count += count;
                         break;
                     case "G":
-                        data[4].count++;
+                        data[4].count += count;
                         break;
                     case "C":
-                        data[5].count++;
+                        data[5].count +=count;
                         break;
                     default:
                         break;
