@@ -24,6 +24,8 @@ function showCard(item) {
     img.height="310" 
     cardsContainer.innerHTML = '';
 
+    const cardName = document.createElement('p');
+    cardName.innerText = "Name: " + item.innerHTML;
     const cardTypes = document.createElement('p');
     cardTypes.innerText = "Type: " + item.getAttribute('types');
     const cardDescription = document.createElement('p');
@@ -47,6 +49,7 @@ function showCard(item) {
     });
 
     cardsContainer.appendChild(img);
+    cardsContainer.appendChild(cardName);
     cardsContainer.appendChild(cardTypes);
     cardsContainer.appendChild(cardDescription);
     cardsContainer.appendChild(deckButton);
