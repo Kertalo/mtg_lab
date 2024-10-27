@@ -9,10 +9,11 @@ document.getElementById('searchCards').addEventListener('click', search);
 const mtg = new Mtg()
 let deck = []
 
+const mana = new ManaCostStats(document.getElementById("manaStats"));
+const color = new ColorStats(document.getElementById("colorStats"));
+
 function setup() {
     loadCards();
-    new ColorStats().buildStats(document.getElementById("colorStats"));
-    new ManaCostStats().buildStats(document.getElementById("manaStats"));
 }
 
 function showCard(item) {
@@ -24,9 +25,9 @@ function showCard(item) {
     cardsContainer.innerHTML = '';
 
     const cardTypes = document.createElement('p');
-    cardTypes.innerText = "Тип: " + item.getAttribute('types');
+    cardTypes.innerText = "Type: " + item.getAttribute('types');
     const cardDescription = document.createElement('p');
-    cardDescription.innerText = "Описание: " + item.getAttribute('description');
+    cardDescription.innerText = "Description:\n" + item.getAttribute('description');
     const deckButton = document.createElement('button');
     deckButton.innerText = 'Add card';
     
@@ -35,7 +36,7 @@ function showCard(item) {
             if (deck[item.id].count < 4 || item.getAttribute('types') === 'Land')
                 deck[item.id].count++;
             else
-                alert(`Нельзя добавить больше 4 копий карты ${item.innerHTML}`)
+                alert(`You cannot add more than 4 copies of the map ${item.innerHTML}`)
         } else {
             deck[item.id] = {
                 card: item,
@@ -70,8 +71,9 @@ function loadCards(cardName = "") {
                         listItem.id = card.multiverseid;
                         listItem.innerHTML = card.name;
                         listItem.setAttribute('img', card.imageUrl);
-                        listItem.setAttribute('description', card.text); 
-                        listItem.setAttribute('types', card.type); 
+                        listItem.setAttribute('description', card.text);
+                        listItem.setAttribute('cmc', card.cmc); 
+                        listItem.setAttribute('types', card.type);
                         listItem.addEventListener('click', () => {
                             showCard(listItem)
                         });
@@ -109,6 +111,9 @@ function updateDeck() {
         cardSample.appendChild(cardCount);
         deckContainer.appendChild(cardSample);
     });
+
+    mana.buildStats(deck);
+    color.buildStats(deck);
 
     const totalCardsCountElement = document.getElementById('totalCardsCount');
     totalCardsCountElement.innerText = `Общее количество карт в колоде: ${totalCardCount}`;

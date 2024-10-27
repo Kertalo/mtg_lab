@@ -1,10 +1,13 @@
 import * as d3 from "d3";
+
 class ColorStats {
 
-    constructor() {
+    constructor(element) {
+        this.element = element;
     }
 
-    buildStats(element){
+    buildStats(deck){
+        this.element.innerHTML = ''
         const data = [
             { color: 'White', count: 15 },
             { color: 'Blue', count: 12 },
@@ -32,8 +35,8 @@ class ColorStats {
         const label = document.createElement('label')
         label.textContent = "Deck Mana Color Distribution";
         label.classList.add("colorLabel");
-        element.appendChild(label)
-        const svg = d3.select(element)
+        this.element.appendChild(label)
+        const svg = d3.select(this.element)
             .append("svg")
             .attr("width", width)
             .attr("height", height)
